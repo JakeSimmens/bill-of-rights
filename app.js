@@ -21,11 +21,15 @@ app.use(flash());
 
 
 app.get('/', (req, res) => {
-    // res.render("index", {
-    //   messages: req.flash("info"),
-    //   contactMessage: ""
-    // });
-    res.send("Site works");
+    res.render("index", {
+      messages: req.flash("info"),
+      contactMessage: ""
+    });
+});
+
+app.post('/', (req, res) => {
+  req.flash("info","Your answer was submitted.");
+  res.redirect('/');
 });
 
 const port = process.env.PORT || 3000;

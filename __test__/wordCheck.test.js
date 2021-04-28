@@ -12,18 +12,24 @@ describe("wordCheck.js", () => {
       let result = compareStrings("sand", "sandbox");
       expect(result.isMatch).toBeFalsy();
       expect(result.stringMatch).toBe("sand");
+      expect(result.unmatchedFirst).toBe("");
+      expect(result.unmatchedSecond).toBe("box");
     });
 
     it("should return false with multiple word string", () => {
       let result = compareStrings("funny is cool and happy today", "funny is cool but not today");
       expect(result.isMatch).toBeFalsy();
       expect(result.stringMatch).toBe("funny is cool ");
+      expect(result.unmatchedFirst).toBe("and happy today");
+      expect(result.unmatchedSecond).toBe("but not today");
     });
 
     it("should return false with an empty string", () => {
       let result = compareStrings("funny", "sandbox");
       expect(result.isMatch).toBeFalsy();
       expect(result.stringMatch).toBe("");
+      expect(result.unmatchedFirst).toBe("funny");
+      expect(result.unmatchedSecond).toBe("sandbox");
     });
 
 

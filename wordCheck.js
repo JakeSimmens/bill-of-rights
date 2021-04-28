@@ -19,8 +19,6 @@ function compareStrings(str1, str2){
   while( !str1Iterator.done && !str2Iterator.done && match){
     let char1 = str1Iterator.next().value;
     let char2 = str2Iterator.next().value;
-    // console.log("char1", char1);
-    // console.log("char2", char2);
 
     if(char1 !== char2){
       match = false;

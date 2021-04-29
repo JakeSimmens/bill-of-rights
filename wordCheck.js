@@ -1,58 +1,58 @@
-function compareStrings(str1, str2){
-  str1 = str1.trim();
-  str2 = str2.trim();
-  if(isMatchingPhrase(str1, str2)){
+function compareStrings(checkMe, correct){
+  checkMe = checkMe.trim();
+  correct = correct.trim();
+  if(isMatchingPhrase(checkMe, correct)){
     return {
       isMatch: true,
-      stringMatch: str1
+      stringMatch: checkMe
     };
   }
 
   let match = true;
   let matchingStr = "";
-  let tailOfString1 = "";
-  let tailOfString2 = "";
+  let tailCheckMe = "";
+  let tailCorrect = "";
 
-  str1Iterator = str1[Symbol.iterator]();
-  str2Iterator = str2[Symbol.iterator]();
+  checkMeIterator = checkMe[Symbol.iterator]();
+  correctIterator = correct[Symbol.iterator]();
 
-  while( !str1Iterator.done && !str2Iterator.done && match){
-    let char1 = str1Iterator.next().value;
-    let char2 = str2Iterator.next().value;
+  while( !checkMeIterator.done && !correctIterator.done && match){
+    let checkChar = checkMeIterator.next().value;
+    let corrChar = correctIterator.next().value;
 
-    if(char1 !== char2){
+    if(checkChar !== corrChar){
       match = false;
-      if(!str1Iterator.done){
-        tailOfString1 = char1;
+      if(!checkMeIterator.done){
+        tailCheckMe = checkChar;
       }
-      if(!str2Iterator.done){
-        tailOfString2 = char2;
+      if(!correctIterator.done){
+        tailCorrect = corrChar;
       }
     } else {
-      matchingStr = matchingStr.concat(char1);
+      matchingStr = matchingStr.concat(checkChar);
     }
   }
 
 
-  let tail1 = str1Iterator.next().value;
-  let tail2 = str2Iterator.next().value;
+  let checkChar = checkMeIterator.next().value;
+  let corrChar = correctIterator.next().value;
   
-  while (tail1 || tail2){
-    if(!str1Iterator.done && tail1){
-      tailOfString1 = tailOfString1.concat(tail1);
+  while (checkChar || corrChar){
+    if(!checkMeIterator.done && checkChar){
+      tailCheckMe = tailCheckMe.concat(checkChar);
     }
-    if(!str2Iterator.done && tail2){
-      tailOfString2 = tailOfString2.concat(tail2);
+    if(!correctIterator.done && corrChar){
+      tailCorrect = tailCorrect.concat(corrChar);
     }
-    tail1 = str1Iterator.next().value;
-    tail2 = str2Iterator.next().value;
+    checkChar = checkMeIterator.next().value;
+    corrChar = correctIterator.next().value;
   }
 
   return {
     isMatch: false,
     stringMatch: matchingStr,
-    unmatchedFirst: tailOfString1 || "",
-    unmatchedSecond: tailOfString2 || ""
+    unmatchedFirst: tailCheckMe || "",
+    unmatchedSecond: tailCorrect || ""
   };
 }
 
@@ -60,7 +60,62 @@ function isMatchingPhrase(checkMe, correct){
   return checkMe === correct;
 }
 
-console.log(compareStrings("sand", "sandbox"));
+///////////
+function checkTheString(guess, correct){
+  let guessList = guess.split(" ");
+  let correctList = correct.split(" ");
+
+  //find array location for matches
+  let result = compareLastWord(guessList, correctList);
+  return result;
+}
+
+function compareLastWord(guessList, correctList){
+  let result = [];
+  if(guessList.length === 0 || correctList.length === 0){
+    return [];
+  }
+  let lastGuessWord = guessList.length-1;
+  let lastCorrectWord = correctList.length-1;
+  if(guessList[lastGuessWord] === correctList[lastCorrectWord]){
+    guessList.pop();
+    correctList.pop();
+    return compareLastWord(guessList, correctList).concat([1]);
+  }
+  else if(guessList.length > 1 && guessList[lastGuessWord-1] === correctList[lastCorrectWord]){
+    guessList.pop();
+    guessList.pop();
+    correctList.pop();
+    return compareLastWord(guessList, correctList).concat([1,0]);
+  } else if(guessList.length > 2 && guessList[lastGuessWord-2] === correctList[lastCorrectWord]){
+    guessList.pop();
+    guessList.pop();
+    guessList.pop();
+    correctList.pop();
+    return compareLastWord(guessList, correctList).concat([1,0,0]);
+  } else if(correctList.length > 1 && guessList[lastGuessWord] === correctList[lastCorrectWord-1]){
+    guessList.pop();
+    correctList.pop();
+    correctList.pop();
+    return compareLastWord(guessList, correctList).concat([1]);
+  } else if(correctList.length > 2 && guessList[lastGuessWord] === correctList[lastCorrectWord-2]){
+    guessList.pop();
+    correctList.pop();
+    correctList.pop();
+    correctList.pop();
+    return compareLastWord(guessList, correctList).concat([1]);
+  } else {
+    guessList.pop();
+    correctList.pop();
+    return compareLastWord(guessList, correctList).concat([0]);
+  }
+
+}
+
+console.log(checkTheString("Bdo Bob cloo", "dan Bob is cool"));
+console.log(checkTheString("From here to there it's everywhere", "From there to here it's almost everywhere"));
+//console.log(compareStrings("sand", "sandbox"));
+//createWordList("Look for a fun time in town.", "Look to see you soon");
 
 module.exports.compareStrings = compareStrings;
 module.exports.isMatchingPhrase = isMatchingPhrase;

@@ -7,10 +7,13 @@
   <title>Bill of Rights</title>
 </head>
 <body>
-  <p><%=messages[0]%></p>
-  <h1>Test your knowledge</h1>
+  <%for (message of messages){ %>
+    <p><%=message%></p>
+  <%}%>
+  
+  <h1>Test your knowledge of 1st Amendment</h1>
   <form action="/" method="POST">
-    <textarea name="" id="" cols="60" rows="10"></textarea>
+    <textarea name="userGuess" id="" cols="60" rows="10"></textarea>
     <button>Check</button>
     <button>Clear</button>
   </form>

@@ -4,7 +4,9 @@ function compareStrings(checkMe, correct){
   if(isMatchingPhrase(checkMe, correct)){
     return {
       isMatch: true,
-      stringMatch: checkMe
+      stringMatch: checkMe,
+      unmatchedFirst: "",
+      unmatchedSecond: ""
     };
   }
 

@@ -29,14 +29,20 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
+  // console.log("post test");
+  // console.log("body: ", req.body);
   let firstAmendment = "Congress shall make no law respecting an establishment of religion, or prohibiting the free excercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assembly, and to petition the Government for a redress of grievances.";
+
   let result = compareStrings(req.body.userGuess, firstAmendment);
+  // console.log("post result: ", result);
+
   if(result.isMatch){
     req.flash("info", "Way to go!!! You got the amendment correct");
   } else {
     req.flash("info", `Close one. Here is the first part you matched correctly: ${result.stringMatch}`);
     req.flash("info", `Here is the remaining portions that contained an error: ${result.unmatchedFirst}`);
   }
+
   res.redirect('/');
 });
 

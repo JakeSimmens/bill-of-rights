@@ -1,4 +1,4 @@
-function compareStrings(checkMe, correct){
+function compareStrings(checkMe = "", correct = ""){
   checkMe = checkMe.trim();
   correct = correct.trim();
   if(isMatchingPhrase(checkMe, correct)){

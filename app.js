@@ -23,7 +23,9 @@ app.use(flash());
 
 app.get('/', (req, res) => {
     res.render("index", {
-      messages: req.flash("info"),
+      correctMsg: req.flash("correct"),
+      wrongMsg: req.flash("wrong"),
+      answer: req.flash("answer"),
       contactMessage: ""
     });
 });
@@ -35,11 +37,15 @@ app.post('/', (req, res) => {
   let result = compareStrings(req.body.userGuess, firstAmendment);
 
   if(result.isMatch){
-    req.flash("info", "Way to go!!! You got the amendment correct");
+    req.flash("correct", "Way to go!!! You got the amendment correct");
   } else {
-    req.flash("info", `Close one. Here is the first part you matched correctly: ${result.stringMatch}`);
-    req.flash("info", `Here is the remaining portions that contained an error: ${result.unmatchedFirst}`);
+    req.flash("wrong", "Here is the first part you got correct:");
+    req.flash("wrong", result.stringMatch);
+    req.flash("wrong", "Here is the remaining portions that contains an error:");
+    req.flash("wrong",result.unmatchedFirst);
   }
+
+  req.flash("answer", firstAmendment);
 
   res.redirect('/');
 });

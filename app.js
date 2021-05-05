@@ -25,6 +25,7 @@ app.get('/', (req, res) => {
     res.render("index", {
       correctMsg: req.flash("correct"),
       wrongMsg: req.flash("wrong"),
+      answer: req.flash("answer"),
       contactMessage: ""
     });
 });
@@ -43,6 +44,8 @@ app.post('/', (req, res) => {
     req.flash("wrong", "Here is the remaining portions that contains an error:");
     req.flash("wrong",result.unmatchedFirst);
   }
+
+  req.flash("answer", firstAmendment);
 
   res.redirect('/');
 });

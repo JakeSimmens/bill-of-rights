@@ -7,7 +7,10 @@
   <title>Bill of Rights</title>
 </head>
 <body>
-  <%for (message of messages){ %>
+  <%for (message of correctMsg){ %>
+    <p><%=message%></p>
+  <%}%>
+  <%for (message of wrongMsg){ %>
     <p><%=message%></p>
   <%}%>
   
